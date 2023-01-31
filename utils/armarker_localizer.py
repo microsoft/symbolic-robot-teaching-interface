@@ -25,10 +25,16 @@ def estimate_homo_transform_matrix(img_src):
     marker_id = data['marker_id']
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # NEW API before 4.7.0
+    #arucodict = cv2.aruco.getPredefinedDictionary(key)
+    #param =  cv2.aruco.DetectorParameters()
+    #detector = cv2.aruco.ArucoDetector(arucodict, param)
+    #bboxs, ids, _ = detector.detectMarkers(gray)
+    # OLD API before 4.7.0
     arucodict = aruco.Dictionary_get(key)
     param = aruco.DetectorParameters_create()
-    bboxs, ids, _ = aruco.detectMarkers(
-        gray, arucodict, parameters=param)
+    bboxs, ids, _ = aruco.detectMarkers(gray, arucodict, parameters=param)
     aruco.drawDetectedMarkers(img, bboxs)
     if len(bboxs) != 0:
         for bbox, id in zip(bboxs, ids):
@@ -47,7 +53,7 @@ def estimate_homo_transform_matrix(img_src):
                 # inverse
                 rot_mat_4x4_marker_to_camera = np.linalg.inv(rot_mat_4x4)
                 return rot_mat_4x4_marker_to_camera, img
-    return None, None
+    return None, img_src
 
 
 if __name__ == '__main__':
