@@ -5,7 +5,6 @@ import json
 import open3d as o3d
 import os
 import copy
-import json
 from . import hand_detection
 from . import object_detection
 from . import localizer
@@ -80,7 +79,7 @@ class task_daemon:
         else:
             print("failed to open video")
             return
-        # try to find ar markers
+        # try to find ar marker
         rot_mat_4x4_marker_to_camera, frame = armarker_localizer.estimate_homo_transform_matrix(
             self.first_frame)
         if rot_mat_4x4_marker_to_camera is None:
