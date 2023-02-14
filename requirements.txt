@@ -6,3 +6,4 @@ pyk4a==1.4.0
 PySimpleGUI==4.60.4
 azure-identity==1.12.0
 azure-storage-blob==12.14.1
+azure-cognitiveservices-speech
