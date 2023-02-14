@@ -340,7 +340,7 @@ if __name__ == '__main__':
     print('done')
 
     print('encoding task models...')
-    speech_synthesizer_azure.synthesize_speech('Encoding task models.')
+    speech_synthesizer_azure.synthesize_speech('Encoding the task models.')
     if debug:
         fp_daemon = os.path.join(output_dir, "daemons.pkl")
         if not os.path.exists(fp_daemon):
