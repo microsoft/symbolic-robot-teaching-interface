@@ -15,9 +15,10 @@ import utils.task_compiler as task_compiler
 import utils.speech_recognizer as speech_recognizer
 import utils.recorder_gui as recorder_gui
 import utils.preview_gui as preview_gui
+import utils.speech_synthesizer as speech_synthesizer
 import asyncio
 import shutil
-
+speech_synthesizer_azure = speech_synthesizer.speech_synthesizer(speech_synthesis_voice_name="en-US-TonyNeural")
 
 def compile_task(
         task,
@@ -163,6 +164,7 @@ if __name__ == '__main__':
 
     # segment video
     print('segmenting video...')
+    speech_synthesizer_azure.synthesize_speech('Splitting the video into segments.')
     if debug:
         # find a file path to 'segment.json'
         fp_segmentation = os.path.join(output_dir,
@@ -223,6 +225,7 @@ if __name__ == '__main__':
 
     # analyze audio file
     print('analyzing audios...')
+    speech_synthesizer_azure.synthesize_speech('Analyzing speech.')
     audio_data = {}
     transcript = []
 
@@ -245,6 +248,7 @@ if __name__ == '__main__':
 
     # confirm the verbal input
     print('confirming the verbal input...')
+    speech_synthesizer_azure.synthesize_speech('Please confirm the verbal input.')
     transcript_confirmed = []
     if debug:
         fp_text_confirmed = os.path.join(
@@ -335,7 +339,8 @@ if __name__ == '__main__':
         cap.release()
     print('done')
 
-    print('encoding task model...')
+    print('encoding task models...')
+    speech_synthesizer_azure.synthesize_speech('Encoding task models.')
     if debug:
         fp_daemon = os.path.join(output_dir, "daemons.pkl")
         if not os.path.exists(fp_daemon):
@@ -523,3 +528,4 @@ if __name__ == '__main__':
     with open(file=fp_task_sequence, mode="rb") as data:
         blob_client.upload_blob(data, overwrite=True)
     print('done!!!')
+    speech_synthesizer_azure.synthesize_speech('Compile done.')
