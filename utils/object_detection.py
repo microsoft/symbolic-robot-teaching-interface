@@ -6,12 +6,12 @@ import tempfile
 
 
 def upload_data_image(fp_tmp_img, object_name):
-    url = 'URL'
+    url = 'http://localhost:8086/object_localization_image'
     headers = {'accept': 'application/json'}
-    files = {'upload_file': open(fp_tmp_img, 'rb')}
-    values = {'object_name': object_name}
-    response = requests.post(url, headers=headers,
-                             files=files, data=values)
+    with open(fp_tmp_img, 'rb') as f:
+        files = {'upload_file': f}
+        values = {'object_name': object_name}
+        response = requests.post(url, headers=headers, files=files, data=values)
     return response
 
 

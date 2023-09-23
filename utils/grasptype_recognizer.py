@@ -3,24 +3,22 @@ import requests
 import os
 import tempfile
 
-
 def upload_data_image(fp_tmp_img, object_name="none"):
-    url = 'URL'
+    url = 'http://localhost:8085/grasp_type_recognition'
     headers = {'accept': 'application/json'}
-    files = {'upload_file': open(fp_tmp_img, 'rb')}
-    values = {'object_name': object_name}
-    response = requests.post(url, headers=headers,
-                             files=files, data=values)
+    with open(fp_tmp_img, 'rb') as f:
+        files = {'upload_file': f}
+        values = {'object_name': object_name}
+        response = requests.post(url, headers=headers, files=files, data=values)
     return response
 
-
 def upload_data_image_customvision(fp_tmp_img, object_name="none"):
-    url = 'URL'
+    url = 'http://localhost:8085/grasp_type_recognition_customvision'
     headers = {'accept': 'application/json'}
-    files = {'upload_file': open(fp_tmp_img, 'rb')}
-    values = {'object_name': object_name}
-    response = requests.post(url, headers=headers,
-                             files=files, data=values)
+    with open(fp_tmp_img, 'rb') as f:
+        files = {'upload_file': f}
+        values = {'object_name': object_name}
+        response = requests.post(url, headers=headers, files=files, data=values)
     return response
 
 

@@ -16,9 +16,46 @@ import utils.speech_recognizer as speech_recognizer
 import utils.recorder_gui as recorder_gui
 import utils.preview_gui as preview_gui
 import utils.speech_synthesizer as speech_synthesizer
+import utils.azlib as azlib
 import asyncio
 import shutil
+from azure.identity import DefaultAzureCredential
+from azure.storage.blob import BlobServiceClient
+import time
 speech_synthesizer_azure = speech_synthesizer.speech_synthesizer(speech_synthesis_voice_name="en-US-TonyNeural")
+
+
+with open('./secrets.json') as f:
+    credentials = json.load(f)
+blob_url = credentials["blob_url"]
+
+async def notify_iot(message,argdict):
+    edge = azlib.EdgeBridge(credentials)
+    device_id = credentials["iot"]["IOT_HUB_DEVICE_ID"]
+    print(device_id)
+    req = azlib.Request(device_id, message, argdict)
+    await edge.run(req)
+    if 'return' not in edge.resp.status:
+        return None
+    return edge.resp.status['return']
+
+def upload_blob(data, filename=None):
+    # upload to blob storage
+    blob_url = credentials["blob_url"]
+    print('uploading to blob storage')
+    default_credential = DefaultAzureCredential(
+        exclude_environment_credentials=True, exclude_shared_token_cache_credential=True)
+    blob_service_client = BlobServiceClient(
+        blob_url, credential=default_credential)
+    container_name = 'storage'
+    if filename is None:
+        filename = time.strftime("%Y%m%d%H%M%S", time.localtime()) + '.json'
+    blob_client = blob_service_client.get_blob_client(
+        container=container_name, blob=filename)
+    blob_client.upload_blob(json.dumps(data, indent=4))
+    print('uploaded to blob storage')
+    filename_for_iot = 'tssrgstorage:storage/'+filename
+    return filename_for_iot
 
 def compile_task(
         task,
@@ -44,7 +81,7 @@ def compile_task(
 async def run_daemon(loop,
                      task_list, verbal_input_list, fp_mp4, fp_depth_npy,
                      segment_timings_frame_list, output_dir_daemon, hand_laterality):
-    sem = asyncio.Semaphore(5)
+    sem = asyncio.Semaphore(10)
 
     async def run_request(task, verbal_input, fp_mp4,
                           fp_depth_npy, segment_timings_frame, output_dir_daemon, hand_laterality):
@@ -130,7 +167,7 @@ def file_read():
     return (Path(fp_mp4),Path(fp_depth)), Path(fp_audio), None
 
 if __name__ == '__main__':
-    debug = False
+    debug = True
     # get file paths
     fp_source, fp_audio, output_dir_name_root = file_read()
     fp_mp4_source,fp_depth_source = fp_source[0],fp_source[1]
@@ -515,17 +552,11 @@ if __name__ == '__main__':
                     pcd_list.append(mesh)
         o3d.visualization.draw_geometries(pcd_list)
 
-    from azure.identity import DefaultAzureCredential
-    from azure.storage.blob import BlobServiceClient
+
     fp_task_sequence = os.path.join(output_dir, "task_models.json")
-    account_url = "BLOB_URL"
-    print('uploading to blob storage')
-    default_credential = DefaultAzureCredential(exclude_environment_credentials=True, exclude_shared_token_cache_credential=True)
-    # Create the BlobServiceClient object
-    blob_service_client = BlobServiceClient(account_url, credential=default_credential)
-    container_name = 'storage'
-    blob_client = blob_service_client.get_blob_client(container=container_name, blob='latest.json')
-    with open(file=fp_task_sequence, mode="rb") as data:
-        blob_client.upload_blob(data, overwrite=True)
+    with open(file=fp_task_sequence, mode="r") as data:
+        content = json.load(data)
+        filename_for_iot = upload_blob(content)
+    asyncio.run(notify_iot("simulate", {"FileName": filename_for_iot}))
     print('done!!!')
     speech_synthesizer_azure.synthesize_speech('Compile done.')

@@ -2,17 +2,15 @@ import requests
 import os
 import cv2
 
-
 def upload_data(upload_file_rgb, fs=30):
-    url = 'URL'
+    url = 'http://localhost:8081/luminance_based_video_segmentation'
     headers = {'accept': 'application/json'}
-    files = {'upload_file': open(upload_file_rgb, 'rb')}
-    data = {'fs': fs}
-    response = requests.post(url, headers=headers,
-                             files=files, data=data)
-    #data = response.data()
-    return response
+    with open(upload_file_rgb, 'rb') as file:
+        files = {'upload_file': file}
+        data = {'fs': fs}
+        response = requests.post(url, headers=headers, files=files, data=data)
 
+    return response
 
 def run(fp_out_mp4, scale=None, fs=30):
     # rescale video using opencv

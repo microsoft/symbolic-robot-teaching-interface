@@ -3,40 +3,36 @@ import requests
 import os
 import tempfile
 
-
 def upload_data_modelbased(upload_json):
-    url = 'URL'
+    url = 'http://localhost:8082/text_based_taskrecognition_modelbased'
     headers = {'accept': 'application/json'}
-    data = {'upload_json': open(upload_json, 'rb')}
-    response = requests.post(url, headers=headers,
-                             files=data)
+    with open(upload_json, 'rb') as f:
+        data = {'upload_json': f}
+        response = requests.post(url, headers=headers, files=data)
     return response
-
 
 def upload_data_luisbased(upload_json):
-    url = 'URL'
+    url = 'http://localhost:8082/text_based_taskrecognition_luisbased'
     headers = {'accept': 'application/json'}
-    data = {'upload_json': open(upload_json, 'rb')}
-    response = requests.post(url, headers=headers,
-                             files=data)
+    with open(upload_json, 'rb') as f:
+        data = {'upload_json': f}
+        response = requests.post(url, headers=headers, files=data)
     return response
-
 
 def upload_data(upload_json):
-    url = 'URL'
+    url = 'http://localhost:8082/text_based_taskrecognition'
     headers = {'accept': 'application/json'}
-    data = {'upload_json': open(upload_json, 'rb')}
-    response = requests.post(url, headers=headers,
-                             files=data)
+    with open(upload_json, 'rb') as f:
+        data = {'upload_json': f}
+        response = requests.post(url, headers=headers, files=data)
     return response
 
-
 def upload_data_object_recognition(upload_json):
-    url = 'URL'
+    url = 'http://localhost:8082/text_based_objectrecognition'
     headers = {'accept': 'application/json'}
-    data = {'upload_json': open(upload_json, 'rb')}
-    response = requests.post(url, headers=headers,
-                             files=data)
+    with open(upload_json, 'rb') as f:
+        data = {'upload_json': f}
+        response = requests.post(url, headers=headers, files=data)
     return response
 
 
@@ -78,7 +74,6 @@ def run_luisbased(fp_task_json, output_dir):
     with open(fp_tmp_json, 'w') as f:
         json.dump(data, f, indent=4)
     return fp_tmp_json
-
 
 def run_object_recognition(textual_input):
     with tempfile.TemporaryDirectory() as output_dir_tmp:
