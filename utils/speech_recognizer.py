@@ -2,14 +2,16 @@ import json
 import requests
 import os
 
-
 def upload_data(fp_audio_json, fp_segmentation):
-    url = 'URL'
+    url = 'http://localhost:8082/audio_split_and_speech_recognition'
     headers = {'accept': 'application/json'}
-    data = {'upload_file': open(fp_audio_json, 'rb'),
-            'upload_json': open(fp_segmentation, 'rb')}
-    response = requests.post(url, headers=headers,
-                             files=data)
+    with open(fp_audio_json, 'rb') as audio_file, open(fp_segmentation, 'rb') as segmentation_file:
+        files = {
+            'upload_file': audio_file,
+            'upload_json': segmentation_file
+        }
+        response = requests.post(url, headers=headers, files=files)
+
     return response
 
 

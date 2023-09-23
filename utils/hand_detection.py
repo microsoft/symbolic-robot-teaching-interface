@@ -215,26 +215,24 @@ def landmark_finder(fp_img, dir_detection_result):
 
 
 def upload_data(mp4path, jsonpath):
-    url = 'URL'
+    url = 'http://localhost:8083/hand_localization'
     headers = {'accept': 'application/json'}
-    data = {
-        'upload_file': open(
-            mp4path, 'rb'), 'upload_json': open(
-            jsonpath, 'rb')}
-    response = requests.post(url, headers=headers,
-                             files=data)
-    #data = response.data()
+    with open(mp4path, 'rb') as mp4file, open(jsonpath, 'rb') as jsonfile:
+        data = {
+            'upload_file': mp4file,
+            'upload_json': jsonfile
+        }
+        response = requests.post(url, headers=headers, files=data)
     return response
-
 
 def upload_data_image(fp_tmp_img):
-    url = 'URL'
+    url = 'http://localhost:8083/hand_localization_image'
     headers = {'accept': 'application/json'}
-    data = {'upload_file': open(fp_tmp_img, 'rb')}
-    response = requests.post(url, headers=headers,
-                             files=data)
-    #data = response.data()
+    with open(fp_tmp_img, 'rb') as imgfile:
+        data = {'upload_file': imgfile}
+        response = requests.post(url, headers=headers, files=data)
     return response
+
 
 
 def run(time_focus, mp4path, output_dir):
@@ -315,7 +313,6 @@ def run_allframe(mp4path, json_send, output_dir):
             print('unpack failed (hand_detection.py)')
         # find the result file
 
-
 def run_image(frame_img):
     with tempfile.TemporaryDirectory() as output_dir:
         fp_tmp_img = os.path.join(output_dir, 'tmp.png')
@@ -330,10 +327,9 @@ def run_image(frame_img):
             data = json.load(json_file)
             return data
 
-
 def run_allframe_with_graspdetection(mp4path, json_send, output_dir):
     def upload_data_with_grasp(mp4path, jsonpath):
-        url = 'URL'
+        url = 'http://localhost:8083/hand_localization_with_grasp'
         headers = {'accept': 'application/json'}
         data = {
             'upload_file': open(
@@ -392,7 +388,6 @@ if __name__ == '__main__':
     cap = cv2.VideoCapture(str(fp_mp4))
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-
     ret, _ = cap.read()
     if ret:
         # video info

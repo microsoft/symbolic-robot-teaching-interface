@@ -204,7 +204,6 @@ class task_daemon:
                 self.fp_loc_hand_last,
                 self.fp_3dmodel_hand_first,
                 self.fp_3dmodel_hand_last) = self.localization_hand()
-
             self.pos_hand_first = self.transform(self.pos_hand_first)
             self.pos_hand_last = self.transform(self.pos_hand_last)
             self.hand_direction = self.set_handdirection()

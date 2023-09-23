@@ -35,7 +35,6 @@ def create_pointcloud(img, depth, cameramodel=None):
         project_valid_depth_only=False)
     return pcd
 
-
 def colorize(
     image: np.ndarray,
     clipping_range: Tuple[Optional[int], Optional[int]] = (None, None),
@@ -94,24 +93,27 @@ def upload_data(
         upload_json_roi,
         upload_json_camera_param,
         upload_json_contact_point=None):
-    url = 'URL'
+    
+    url = 'http://localhost:8084/position_extraction'
     headers = {'accept': 'application/json'}
-    if upload_json_contact_point is None:
+    
+    with open(upload_file_depth, 'rb') as depth_file, \
+         open(upload_file_rgb, 'rb') as rgb_file, \
+         open(upload_json_roi, 'rb') as roi_file, \
+         open(upload_json_camera_param, 'rb') as param_file:
+
         data = {
-            'upload_file_depth': open(
-                upload_file_depth, 'rb'), 'upload_file_rgb': open(
-                upload_file_rgb, 'rb'), 'upload_json_roi': open(
-                upload_json_roi, 'rb'), 'upload_json_camera_param': open(
-                    upload_json_camera_param, 'rb')}
-    else:
-        data = {'upload_file_depth': open(upload_file_depth, 'rb'),
-                'upload_file_rgb': open(upload_file_rgb, 'rb'),
-                'upload_json_roi': open(upload_json_roi, 'rb'),
-                'upload_json_camera_param': open(upload_json_camera_param, 'rb'),
-                'upload_json_contact_point': open(upload_json_contact_point, 'rb')}
-    response = requests.post(url, headers=headers,
-                             files=data)
-    #data = response.data()
+            'upload_file_depth': depth_file.read(),
+            'upload_file_rgb': rgb_file.read(),
+            'upload_json_roi': roi_file.read(),
+            'upload_json_camera_param': param_file.read()
+        }
+        
+        if upload_json_contact_point:
+            with open(upload_json_contact_point, 'rb') as contact_file:
+                data['upload_json_contact_point'] = contact_file.read()
+
+    response = requests.post(url, headers=headers, files=data)
     return response
 
 
@@ -207,7 +209,6 @@ def run_find_contactweb(frame_img, frame_depth, hand_frame_img, loc_json, output
             loc_json['top']:loc_json['bottom'],
             loc_json['left']:loc_json['right']]
         cv2.imwrite(fp_tmp_img_crop, frame_crop)
-
         contact_point = landmark_finder(fp_tmp_img_crop, fp_out)
         print(contact_point)
         if contact_point is None:
