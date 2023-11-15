@@ -1,46 +1,261 @@
-This project is a part of Learning-from-Observation (LfO). 
-What is LfO?
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+    ul {
+      margin-top: 120px; /* 上部の余白を設定 */
+    }
+    p {
+      max-width: 80%; /* テキストの幅制限を設定 */
+      margin: 0 auto; /* テキストを中央揃えに配置 */
+      text-align: justify; /* 文字を両端揃えにする（オプション） */
+      font-size: 20px; /* フォントサイズを調整（オプション） */
+    }
+    li {
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 25px; /* フォントサイズを調整 */
+      font-weight: bold; /* 太さを設定 */
+    }
+    h1, h2 {
+      text-align: center;
+    }
+
+    center {
+      display: block;
+      margin: auto;
+      text-align: center;
+    }
+
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+
+    li {
+      margin-bottom: 20px;
+    }
+
+    img {
+      display: block;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+
+<h1> Learning-from-Observation (LfO) </h1>
 <br>
-<video src="src/LfO.mp4" controls></video>
+<center>
+  <video controls="">
+    <source src="src/LfO.mp4">
+  </video>
+  <br>
+  What is LfO?
+</center>
 
-<h2>Video libraries of robot execution</h2>
-Throw away a spam can to a trash box <br>
-<video src="src/robo_demo_spam_small.mp4" controls width="640"></video> <br> <br>
+<br>
 
-Move a juice can <br>
+<h1 id="from-demonstration-to-robot-execution">From Demonstration to robot execution</h1>
+<p>In each demonstration, the sequence of tasks with skill parameters is obtained from the human demonstration. And every robot shares the same task sequence and reproduce the same task sequence regardless of the robot. Every Video of robot execution is played three times faster.</p>
+
 <ul>
-  <li> From bottom to top <br>
-    <video src="src/robo_demo_juice_btt_small.mp4" controls width="640"></video> </li>
-  <li> From top to bottom <br>
-    <video src="src/robo_demo_juice_ttb_small.mp4" controls width="640"></video> </li>
-  <li> Move a different can <br>
-    <video src="src/shelf_small.mp4" controls width="640"></video> </li>
+  <li>Place-on-plate demo</li>
 </ul>
-
-Move a spam can on a plate <br>
-<video src="src/plate_spam_small.mp4" controls width="640"></video> <br> <br>
-
-Open a fridge <br>
-<video src="src/ptg51_small.mp4" controls width="640"></video> <br> <br>
-
-Wipe <br>
-<video src="src/wipex3_small.mp4" controls width="640"></video> <br> <br>
-
-<h2>Implemented skill library</h2>
-Open a drawer<br>
+<center>
+<video controls="">
+  <source src="src/place.webm">
+</video>
+<br>
+Demonstration
+</center>
+<p><br></p>
+<center>
+<img src="src/arrow.png">
+</center>
+<center>
+<video controls="">
+  <source src="src/nextage_place.webm">
+</video>
+<br>
+Nextage-Shadow
+</center>
+<p><br></p>
+<center>
+<video controls="">
+  <source src="src/fetch_place.webm">
+</video>
+<br>
+Fetch-Shadow
+</center>
+<p><br></p>
+<center>
+<video controls="">
+  <source src="src/fetch_place2.webm">
+</video>
+<br>
+Fetch-Parallel
+</center>
 <ul>
-  <li> The drawer is empty <br>
-    <video src="src/ptg3_bonsai_small.mp4" controls width="640"></video> </li>
-  <li> The drawer is not empty <br>
-    <video src="src/ptg3_bonsai_weight_small.mp4" controls width="640"></video> </li>
+  <li>Shelf demo</li>
 </ul>
-
-Comparison between manually programmed motion and reinforcement learning (RL) agent, when the estimated opening direction is inaccurate <br>
+<center>
+<video controls="">
+  <source src="src/shelf.webm">
+</video>
+<br>
+Demonstration
+</center>
+<p><br></p>
+<center>
+<img src="src/arrow.png">
+</center>
+<center>
+<video controls="">
+  <source src="src/nextage_shelf.webm">
+</video>
+<br>
+Nextage-Shadow
+</center>
+<p><br></p>
+<center>
+<video controls="">
+  <source src="src/fetch_shelf.webm">
+</video>
+<br>
+Fetch-Shadow
+</center>
+<p><br></p>
+<center>
+<video controls="">
+  <source src="src/fetch_shelf2.webm">
+</video>
+<br>
+Fetch-Parallel
+</center>
 <ul>
-  <li> Manually programmed motion <br>
-    <video src="src/wo_bonsai.mp4" controls width="640"></video> </li>
-  <li> RL agent <br>
-    <video src="src/with_bonsai.mp4" controls width="640"></video> </li>
+  <li>Throw-away demo</li>
 </ul>
+<center>
+<video controls="">
+  <source src="src/throw.webm">
+  <source src="src/throw.mp4">
+</video>
+<br>
+Demonstration
+</center>
+<p><br></p>
+<center>
+<img src="src/arrow.png">
+</center>
+<center>
+<video controls="">
+  <source src="src/nextage_throw.webm">
+</video>
+<br>
+Nextage-Shadow
+</center>
+<p><br></p>
+<center>
+<video controls="">
+  <source src="src/fetch_throw.webm">
+</video>
+<br>
+Fetch-Shadow
+</center>
+<p><br></p>
+<center>
+<video controls="">
+  <source src="src/fetch_throw2.webm">
+</video>
+<br>
+Fetch-Parallel
+</center>
+<ul>
+  <li>Open fridge demo</li>
+</ul>
+<center>
+<video controls="">
+  <source src="src/fridge.webm">
+</video>
+<br>
+Demonstration
+</center>
+<p><br></p>
+<center>
+<img src="src/arrow.png">
+</center>
+<center>
+<video controls="">
+  <source src="src/nextage_fridge.webm">
+</video>
+<br>
+Nextage-Shadow
+</center>
+<p><br></p>
+<center>
+<video controls="">
+  <source src="src/fetch_fridge.webm">
+</video>
+<br>
+Fetch-Shadow
+</center>
+<p><br></p>
+<center>
+<video controls="">
+  <source src="src/fetch_fridge2.webm"
+</video>
+<br>
+Fetch-Parallel
+</center>
+
+<h1>Other implemented skill librarys</h1>
+<ul>
+  <li>Wipe skill</li>
+</ul>
+<br>
+<center>
+<video src="src/wipex3_small.mp4" controls width="640"></video> </center>
 
 
+<ul>
+  <li>Open drawer skill</li>
+</ul>
+<center>
+  <video src="src/ptg3_bonsai_small.mp4" controls width="640"></video> 
+  <br>
+  The drawer is empty</center>
+  <br>
+  <center>
+    <video src="src/ptg3_bonsai_weight_small.mp4" controls width="640"></video>
+    <br>
+    The drawer is not empty
+  </center>
+
+
+<h1>Comparison between manually programmed motion and reinforcement learning (RL) agent</h1>
+<p>RL method robustly works when the estimated opening direction is inaccurate</p>
+
+<p><br></p>
+<center>
+    <video src="src/wo_bonsai.mp4" controls width="640"></video> 
+    <br>Manually programmed motion
+  </center>
+  <br>
+  <center>
+    <video src="src/with_bonsai.mp4" controls width="640"></video>
+    <br>RL agent
+</center>
+
+</body>
+</html>
