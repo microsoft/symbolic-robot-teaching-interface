@@ -262,6 +262,7 @@ Fetch-Parallel
 </center>
 
 <h1>Robust skill oparation based on sensor feedback</h1>
+<p>The skills use the state representation that is less suffer from the sim-to-real gap. For example, the force direction, not the force itself, is used as the state; the force is easily changed by the physical properties of the drawer, such as its mass and friction coefficient. As the result, the robot can successfully open both the empty drawer and the not-empty drawer.</p>
 <center>
   <video src="src/ptg3_bonsai_small.mp4" controls width="640"></video> 
   <br>
@@ -275,7 +276,7 @@ Fetch-Parallel
 
 
 <h1>Comparison between manually programmed motion and reinforcement learning (RL) agent</h1>
-<p>RL method robustly works when the estimated opening direction is inaccurate</p>
+<p>The RL method robustly works when the estimated opening direction is inaccurate. In manually programmed motion, the robot draw the drawer along the estimated opening direction without force feedback. In RL agent, the robot modifies the drawing direction following the output of the RL. Even in the case where the estimation is so inaccurate, the RL agent can adjusts the motion to successfully open the drawer.</p>
 
 <p><br></p>
 <center>
